@@ -47,7 +47,6 @@
             in
               ["-s" "-w" "-extldflags=-static"]
               ++ (lib.mapAttrsToList (k: v: "-X ${k}=${v}") {
-                "github.com/k0sproject/k0s/pkg/build.KubernetesVersion" = k8sVer;
                 "github.com/k0sproject/k0s/pkg/build.Version" = "v${version}";
                 "k8s.io/component-base/version.buildDate" = "1970-01-01T00:00:00Z";
                 "k8s.io/component-base/version.gitMajor" = k8sMajor;
