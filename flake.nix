@@ -39,15 +39,13 @@
               runHook postInstall
             '';
 
-            buildInputs = [glibc.static];
-            nativeBuildInputs = [musl];
+            buildInputs = [musl];
             ldflags = let
               k8sVer = with builtins; elemAt (split "\\+" version) 0;
               k8sMajor = with builtins; elemAt (split "\\." k8sVer) 0;
               k8sMinor = with builtins; elemAt (split "\\." k8sVer) 2;
             in
               ["-s" "-w" "-extldflags=-static"]
-              # TODO: -extldflags='-L${musl}/lib'
               ++ (lib.mapAttrsToList (k: v: "-X ${k}=${v}") {
                 # TODO: Extract these version tags from the go mod file.
                 # Or better yet, patch the mod file to contain our own versions.
