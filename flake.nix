@@ -47,27 +47,13 @@
             in
               ["-s" "-w" "-extldflags=-static"]
               ++ (lib.mapAttrsToList (k: v: "-X ${k}=${v}") {
-                # TODO: Extract these version tags from the go mod file.
-                # Or better yet, patch the mod file to contain our own versions.
-                "github.com/containerd/containerd/version.Version" = containerd.version;
-                "github.com/k0sproject/k0s/pkg/build.ContainerdVersion" = containerd.version;
-                "github.com/k0sproject/k0s/pkg/build.EtcdVersion" = etcd.version;
-                "github.com/k0sproject/k0s/pkg/build.EulaNotice" = "";
-                "github.com/k0sproject/k0s/pkg/build.KineVersion" = "0.13.2"; # TODO
-                "github.com/k0sproject/k0s/pkg/build.KonnectivityVersion" = "0.30.3"; # TODO
                 "github.com/k0sproject/k0s/pkg/build.KubernetesVersion" = k8sVer;
-                "github.com/k0sproject/k0s/pkg/build.RuncVersion" = runc.version;
                 "github.com/k0sproject/k0s/pkg/build.Version" = "v${version}";
-                "github.com/k0sproject/k0s/pkg/telemetry.segmentToken" = "";
                 "k8s.io/component-base/version.buildDate" = "1970-01-01T00:00:00Z";
-                "k8s.io/component-base/version.gitCommit" = "not_available";
                 "k8s.io/component-base/version.gitMajor" = k8sMajor;
                 "k8s.io/component-base/version.gitMinor" = k8sMinor;
                 "k8s.io/component-base/version.gitVersion" = "v${k8sVer}";
               });
-
-            # TODO: Re-enable.
-            doCheck = false;
 
             meta = {
               description = "The Zero Friction Kubernetes";
