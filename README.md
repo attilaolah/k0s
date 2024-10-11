@@ -17,3 +17,8 @@ statically linked). Depending on the usage, different dependencies are required:
 - `konnectivity` if enabled via config
 
 All these binaries can be made available at runtime as needed.
+
+## Alpine Packages
+
+The flake contains "apps" for packaging the binaries as APKs for Alpine. The "keys" directory contains my signing key;
+it can be added to `/etc/apk/keys` to verify the signatures.
