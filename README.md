@@ -1,6 +1,6 @@
-# Nix flake to build `k0s`
+# Minimal `k0s` packages for Nix & Alpine
 
-This repo contains a Nix flake for building `k0s`, the "zero friction Kubernetes".
+This repo contains a Nix flake for building `k0s`, "The Zero Friction Kubernetes".
 
 The main goal is to leverage the NixOS build toolchains, which allows for easy cross-compilation for architectures that
 are not supported by the upstream project, i.e. `i686`.
