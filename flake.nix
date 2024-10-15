@@ -100,12 +100,12 @@
             # Maintainer: Attila Oláh <${email}>
             pkgname=${pname}
             pkgver=${apkVersion}
-            pkgrel=0
+            pkgrel=1
             pkgdesc="${description}"
             url="${homepage}"
             arch="x86_64 x86"
             license="${license.spdxId}"
-            depends="openrc containerd runc"
+            depends="openrc kubelet containerd runc"
             makedepends=""
             install=""
             source="${pname}"
