@@ -15,7 +15,7 @@
       systems = ["x86_64-linux" "i686-linux"];
       perSystem = {pkgs, ...}: let
         pname = "k0s";
-        version = "1.31.1+k0s.1";
+        version = "1.31.3+k0s.0";
         description = "The Zero Friction Kubernetes";
         homepage = "https://k0sproject.io";
         license = pkgs.lib.licenses.asl20;
@@ -28,10 +28,10 @@
               owner = "k0sproject";
               repo = pname;
               rev = "v${version}";
-              hash = "sha256-QXSvbi11GR0G5aALKz44hoPHDC7TUa05nu2hqUO+jVQ=";
+              hash = "sha256-ngytMUVVQRMEgkPTgJnXEKBuTIoh8xAAPeL9oh8pimE=";
             };
 
-            vendorHash = "sha256-YfVELaOOgGddtGGJIFlYH6Gxcy9eqa+CtZzFXV1YpDo=";
+            vendorHash = "sha256-+UPRUXNIvTvKFcbUDgLnM+GN2xne5x3NyPY/EFmQzz8=";
 
             GOFLAGS = [
               "-tags=osusergo,noembedbins"
@@ -149,10 +149,10 @@
             tag = "latest";
             fromImage = pkgs.dockerTools.pullImage {
               imageName = "alpine";
-              imageDigest = "sha256:33735bd63cf84d7e388d9f6d297d348c523c044410f553bd878c6d7829612735";
-              sha256 = "sha256-jGOIwPKVsjIbmLCS3w0AiAuex3YSey43n/+CtTeG+Ds=";
+              imageDigest = "sha256:f3240395711384fc3c07daa46cbc8d73aa5ba25ad1deb97424992760f8cb2b94";
+              sha256 = "sha256-w35mj+n0KcN46A0rOjJEvMxriAAOGXDtXYJdAOgNOvk=";
               finalImageName = "alpine";
-              finalImageTag = "3.20.3";
+              finalImageTag = "3.21.2";
               os = "linux";
               arch = "x86_64";
             };
