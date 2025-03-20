@@ -149,10 +149,10 @@
             tag = "latest";
             fromImage = pkgs.dockerTools.pullImage {
               imageName = "alpine";
-              imageDigest = "sha256:f3240395711384fc3c07daa46cbc8d73aa5ba25ad1deb97424992760f8cb2b94";
-              sha256 = "sha256-w35mj+n0KcN46A0rOjJEvMxriAAOGXDtXYJdAOgNOvk=";
+              imageDigest = "sha256:2436f2b3b7d2537f4c5b622d7a820f00aaea1b6bd14c898142472947d5f02abe";
+              sha256 = "sha256-qL9ea8U0RrD/zIEcf8hoM3O4qCb6xZ0DrFiB3FlxFSQ=";
               finalImageName = "alpine";
-              finalImageTag = "3.21.2";
+              finalImageTag = "3.21.3";
               os = "linux";
               arch = "x86_64";
             };
