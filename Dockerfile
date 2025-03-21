@@ -6,9 +6,9 @@ RUN rm /usr/share/nginx/html/*.html && \
     sed -i "/^user\b/d" /etc/nginx/nginx.conf && \
     apk update && apk add --no-cache curl
 
-COPY --chown=nginx:nginx keys/attila@dorn.haus-67093be0.rsa.pub /usr/share/nginx/html/key.rsa.pub
 COPY --chown=nginx:nginx nginx.conf /etc/nginx/conf.d/default.conf
-COPY --chown=nginx:nginx dist/ /usr/share/nginx/html/
+COPY --chown=nginx:nginx keys/attila@dorn.haus-67093be0.rsa.pub /usr/share/nginx/html/apks/key.rsa.pub
+COPY --chown=nginx:nginx dist/ /usr/share/nginx/html/apks/
 
 USER nginx
 EXPOSE 8443
