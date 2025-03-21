@@ -3,7 +3,8 @@ FROM nginx:1.27.4-alpine
 RUN rm /usr/share/nginx/html/*.html && \
     sed -i "s|^pid\b.*|pid /var/run/nginx/nginx.pid;|" /etc/nginx/nginx.conf && \
     sed -i "s|^worker_processes\b.*|worker_processes 2;|" /etc/nginx/nginx.conf && \
-    sed -i "/^user\b/d" /etc/nginx/nginx.conf
+    sed -i "/^user\b/d" /etc/nginx/nginx.conf && \
+    apk update && apk add --no-cache curl
 
 COPY --chown=nginx:nginx keys/attila@dorn.haus-67093be0.rsa.pub /usr/share/nginx/html/key.rsa.pub
 COPY --chown=nginx:nginx nginx.conf /etc/nginx/conf.d/default.conf
