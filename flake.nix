@@ -207,7 +207,7 @@
         in {
           i686 = app "i686";
           x86_64 = app "x86_64";
-          update-mirror = {
+          publish = {
             type = "app";
             program = let
               inherit (pkgs.lib) strings;
