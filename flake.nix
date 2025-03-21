@@ -96,7 +96,7 @@
           # Alpine won't accept the versions used by upstream.
           apkVersion = builtins.replaceStrings ["+${pname}."] ["."] version;
 
-          apkbuild-in = pkgs.writeText "apkbuild.in" ''
+          apkbuildIn = pkgs.writeText "apkbuild.in" ''
             # Maintainer: Attila Oláh <${email}>
             pkgname=${pname}
             pkgver=${apkVersion}
@@ -119,7 +119,7 @@
             }
           '';
 
-          entrypoint-sh = pkgs.writeShellScriptBin "entrypoint.sh" ''
+          entrypointSh = pkgs.writeShellScriptBin "entrypoint.sh" ''
             set -euxo pipefail
 
             export BOOTSTRAP=nobase
@@ -132,7 +132,7 @@
             cp -a /etc/apk/keys/*.pub "$CBUILDROOT/etc/apk/keys"
             abuild-apk add --quiet --initdb --arch $CHOST --root "$CBUILDROOT"
 
-            cp "${apkbuild-in}" APKBUILD
+            cp "${apkbuildIn}" APKBUILD
             chown packager:abuild APKBUILD .
             chmod u+w APKBUILD
 
@@ -143,9 +143,9 @@
             chown -R $UID:$GID dist
           '';
 
-          apk-build-image-name = "${pname}-apk-build";
-          apk-build-image = pkgs.dockerTools.buildImage {
-            name = apk-build-image-name;
+          apkBuildImageName = "${pname}-apk-build";
+          apkBuildImage = pkgs.dockerTools.buildImage {
+            name = apkBuildImageName;
             tag = "latest";
             fromImage = pkgs.dockerTools.pullImage {
               imageName = "alpine";
@@ -164,13 +164,13 @@
 
             copyToRoot = pkgs.buildEnv {
               name = "image-root";
-              paths = [entrypoint-sh];
+              paths = [entrypointSh];
             };
 
             config = {
               WorkingDir = "/build";
               Volumes = {"/build" = {};};
-              EntryPoint = ["${pkgs.lib.getExe entrypoint-sh}"];
+              EntryPoint = ["${pkgs.lib.getExe entrypointSh}"];
             };
           };
 
@@ -183,27 +183,50 @@
             };
           in {
             type = "app";
-            program = pkgs.writeShellScriptBin "build-apk" ''
-              set -euxo pipefail
+            program = pkgs.writeShellApplication {
+              name = "build-apk";
+              runtimeInputs = with pkgs; [docker];
+              text = ''
+                host_key="$PWD/keys/${signingKey}"
+                guest_key="/etc/apk/keys/${signingKey}"
 
-              KEYS=$PWD/keys
-
-              docker load < ${apk-build-image}
-              docker run --rm \
-                --env=UID=$(id -u) \
-                --env=GID=$(id -g) \
-                --env=CHOST=${nix2apk.${system}} \
-                --volume=$KEYS/${signingKey}.pub:/etc/apk/keys/${signingKey}.pub \
-                --volume=$KEYS/${signingKey}:/etc/apk/keys/${signingKey} \
-                --volume=${apkbuild-in}:${apkbuild-in} \
-                --volume=${binary}:/build/${pname} \
-                --volume=$PWD/dist:/build/dist \
-                "${apk-build-image-name}"
-            '';
+                docker load < "${apkBuildImage}"
+                docker run --rm \
+                  --env="UID=$(id -u)" \
+                  --env="GID=$(id -g)" \
+                  --env="CHOST=${nix2apk.${system}}" \
+                  --volume="$host_key:$guest_key" \
+                  --volume="$host_key.pub:$guest_key.pub" \
+                  --volume="${apkbuildIn}:${apkbuildIn}" \
+                  --volume="${binary}:/build/${pname}" \
+                  --volume="$PWD/dist:/build/dist" \
+                  "${apkBuildImageName}"
+              '';
+            };
           };
         in {
           i686 = app "i686";
           x86_64 = app "x86_64";
+          publish = {
+            type = "app";
+            program = let
+              inherit (pkgs.lib) strings;
+              dockerImage = "attilaolah/k0s";
+              dockerVersion = strings.concatStrings (strings.splitString "+k0s" version);
+              dockerTag = "${dockerImage}:${dockerVersion}";
+            in
+              pkgs.writeShellApplication {
+                name = "apk-repo-build";
+                runtimeInputs = with pkgs; [docker];
+                text = ''
+                  rm -rf dist
+                  nix run .#i686
+                  nix run .#x86_64
+                  docker build -t "${dockerTag}" .
+                  docker push "${dockerTag}"
+                '';
+              };
+          };
         };
       };
     };
