@@ -211,7 +211,7 @@
             type = "app";
             program = let
               inherit (pkgs.lib) strings;
-              dockerImage = "ghcr.io/attilaolah/k0s";
+              dockerImage = "attilaolah/k0s";
               dockerVersion = strings.concatStrings (strings.splitString "+k0s" version);
               dockerTag = "${dockerImage}:${dockerVersion}";
             in
