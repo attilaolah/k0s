@@ -207,6 +207,26 @@
         in {
           i686 = app "i686";
           x86_64 = app "x86_64";
+          update-mirror = {
+            type = "app";
+            program = let
+              inherit (pkgs.lib) strings;
+              dockerImage = "ghcr.io/attilaolah/k0s";
+              dockerVersion = strings.concatStrings (strings.splitString "+k0s" version);
+              dockerTag = "${dockerImage}:${dockerVersion}";
+            in
+              pkgs.writeShellApplication {
+                name = "apk-repo-build";
+                runtimeInputs = with pkgs; [docker];
+                text = ''
+                  rm -rf dist
+                  nix run .#i686
+                  nix run .#x86_64
+                  docker build -t "${dockerTag}" .
+                  docker push "${dockerTag}"
+                '';
+              };
+          };
         };
       };
     };
