@@ -15,7 +15,7 @@
       systems = ["x86_64-linux" "i686-linux"];
       perSystem = {pkgs, ...}: let
         pname = "k0s";
-        version = "1.32.2+k0s.0";
+        version = "1.32.3+k0s.0";
         description = "The Zero Friction Kubernetes";
         homepage = "https://k0sproject.io";
         license = pkgs.lib.licenses.asl20;
@@ -28,10 +28,10 @@
               owner = "k0sproject";
               repo = pname;
               rev = "v${version}";
-              hash = "sha256-ML7oj54CGuHZ5IF19hCExmPogqEY9GOfCEDoqFffl3s";
+              hash = "sha256-EkHs38+OoJgYcTmteTf1hPkS5L0YITjA8U+SRv4VhyA=";
             };
 
-            vendorHash = "sha256-7Sd7av/JFlM6jFf/1nlZ4ELDB66Z35xpxiipnWb57/c=";
+            vendorHash = "sha256-O/Qy2+qiOmgAnOrdXqHW5uz4DGtRoyBYafprN9TeGGw=";
 
             GOFLAGS = [
               "-tags=osusergo,noembedbins"
