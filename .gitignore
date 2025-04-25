@@ -1,3 +1,4 @@
-keys/*.rsa
-result
-dist
+/.envrc
+/dist
+/keys/*.rsa
+/result
