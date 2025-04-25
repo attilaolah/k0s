@@ -154,7 +154,7 @@
             name = apkBuildImageName;
             tag = "latest";
             fromImage = pkgs.dockerTools.pullImage (let
-              renovate = ["alpine" "3.21.3" "sha256:2436f2b3b7d2537f4c5b622d7a820f00aaea1b6bd14c898142472947d5f02abe"]; # docker
+              renovate = ["alpine" "3.21.3" "sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c"]; # docker
               name = elemAt renovate 0;
               version = elemAt renovate 1;
               digest = elemAt renovate 2;
