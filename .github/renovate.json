@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "dependencyDashboard": true,
+  "nix": {"enabled": true},
+  "ignorePaths": ["/results/**"],
+  "packageRules": [
+    {
+      "description": ["Merge GitHub actions updates"],
+      "matchManagers": ["github-actions"],
+      "automerge": true
+    }
+  ]
+}
