@@ -14,10 +14,16 @@
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux" "i686-linux"];
       perSystem = {pkgs, ...}: let
-        pname = "k0s";
-        version = "1.32.3+k0s.0";
+        inherit (builtins) elemAt;
+        renovate = ["k0sproject/k0s" "1.32.3+k0s.0"]; # github-releases
+        ownerAndRepo = pkgs.lib.strings.splitString "/" (elemAt renovate 0);
+        owner = elemAt ownerAndRepo 0;
+        repo = elemAt ownerAndRepo 1;
+        version = elemAt renovate 1;
+
+        pname = repo;
         description = "The Zero Friction Kubernetes";
-        homepage = "https://k0sproject.io";
+        homepage = "https://${owner}.io";
         license = pkgs.lib.licenses.asl20;
       in {
         packages.default = with pkgs; let
@@ -25,8 +31,7 @@
             inherit pname version;
 
             src = fetchFromGitHub {
-              owner = "k0sproject";
-              repo = pname;
+              inherit owner repo;
               rev = "v${version}";
               hash = "sha256-EkHs38+OoJgYcTmteTf1hPkS5L0YITjA8U+SRv4VhyA=";
             };
@@ -50,9 +55,10 @@
 
             buildInputs = [musl];
             ldflags = let
-              k8sVer = with builtins; elemAt (split "\\+" version) 0;
-              k8sMajor = with builtins; elemAt (split "\\." k8sVer) 0;
-              k8sMinor = with builtins; elemAt (split "\\." k8sVer) 2;
+              inherit (builtins) elemAt split;
+              k8sVer = elemAt (split "\\+" version) 0;
+              k8sMajor = elemAt (split "\\." k8sVer) 0;
+              k8sMinor = elemAt (split "\\." k8sVer) 2;
             in
               ["-s" "-w" "-extldflags=-static"]
               ++ (lib.mapAttrsToList (k: v: "-X ${k}=${v}") {
@@ -147,15 +153,20 @@
           apkBuildImage = pkgs.dockerTools.buildImage {
             name = apkBuildImageName;
             tag = "latest";
-            fromImage = pkgs.dockerTools.pullImage {
-              imageName = "alpine";
-              imageDigest = "sha256:2436f2b3b7d2537f4c5b622d7a820f00aaea1b6bd14c898142472947d5f02abe";
+            fromImage = pkgs.dockerTools.pullImage (let
+              renovate = ["alpine" "3.21.3" "sha256:2436f2b3b7d2537f4c5b622d7a820f00aaea1b6bd14c898142472947d5f02abe"]; # docker
+              name = elemAt renovate 0;
+              version = elemAt renovate 1;
+              digest = elemAt renovate 2;
+            in {
+              imageName = name;
+              imageDigest = digest;
               sha256 = "sha256-qL9ea8U0RrD/zIEcf8hoM3O4qCb6xZ0DrFiB3FlxFSQ=";
-              finalImageName = "alpine";
-              finalImageTag = "3.21.3";
+              finalImageName = name;
+              finalImageTag = version;
               os = "linux";
               arch = "x86_64";
-            };
+            });
 
             runAsRoot = ''
               /bin/echo "PACKAGER_PRIVKEY=/etc/apk/keys/${signingKey}" > /etc/abuild.conf
@@ -217,7 +228,7 @@
             in
               pkgs.writeShellApplication {
                 name = "apk-repo-build";
-                runtimeInputs = with pkgs; [docker];
+                runtimeInputs = with pkgs; [docker nix];
                 text = ''
                   rm -rf dist
                   nix run .#i686
