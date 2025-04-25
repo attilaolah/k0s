@@ -3,6 +3,7 @@
   "dependencyDashboard": true,
   "enabledManagers": [
     "custom.regex",
+    "dockerfile",
     "github-actions",
     "nix"
   ],
