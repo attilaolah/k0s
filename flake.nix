@@ -106,7 +106,7 @@
             # Maintainer: Attila Oláh <${email}>
             pkgname=${pname}
             pkgver=${apkVersion}
-            pkgrel=1
+            pkgrel=0
             pkgdesc="${description}"
             url="${homepage}"
             arch="x86_64 x86"
