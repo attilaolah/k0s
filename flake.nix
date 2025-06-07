@@ -165,7 +165,7 @@
               finalImageName = name;
               finalImageTag = version;
               os = "linux";
-              arch = "x86_64";
+              arch = "amd64";
             });
 
             runAsRoot = ''
