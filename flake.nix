@@ -33,10 +33,10 @@
             src = fetchFromGitHub {
               inherit owner repo;
               rev = "v${version}";
-              hash = "sha256-O4mRu7HZk8nEG9w++61TYFr8zupaDvhwZ6Y1Jm2FXKo=";
+              hash = "sha256-i5sGFNZH1vC+g2n04dMQ0P4CXihZWO2a5DwMsza+n7A=";
             };
 
-            vendorHash = "sha256-6EGIQ5xs/KZgkz1rvRc+5J1ppDAD7SUUco7gJItr8oo=";
+            vendorHash = "sha256-GtIRI5cr6l/thCn11DLzK+klev7EUz9Fppw7hpD7x88=";
 
             GOFLAGS = [
               "-tags=osusergo,noembedbins"
