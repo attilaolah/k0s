@@ -233,8 +233,7 @@
                   rm -rf dist
                   nix run .#i686
                   nix run .#x86_64
-                  docker build -t "${dockerTag}" .
-                  docker push "${dockerTag}"
+                  docker buildx build --platform linux/amd64,linux/386 -t "${dockerTag}" --push .
                 '';
               };
           };
