@@ -15,7 +15,7 @@
       systems = ["x86_64-linux" "i686-linux"];
       perSystem = {pkgs, ...}: let
         inherit (builtins) elemAt;
-        renovate = ["k0sproject/k0s" "1.33.4+k0s.0"]; # github-releases
+        renovate = ["k0sproject/k0s" "1.34.1+k0s.0"]; # github-releases
         ownerAndRepo = pkgs.lib.strings.splitString "/" (elemAt renovate 0);
         owner = elemAt ownerAndRepo 0;
         repo = elemAt ownerAndRepo 1;
@@ -33,10 +33,10 @@
             src = fetchFromGitHub {
               inherit owner repo;
               rev = "v${version}";
-              hash = "sha256-VMIQbDVyzPg/a8v8jOz8FT8VWaWuZgfnHDvknIzTxzc=";
+              hash = "sha256-ZbryNgi8FSdGEgpJ+OaPof71qlkAL6n05lmzD/j2d2c=";
             };
 
-            vendorHash = "sha256-oe6BisSnlyO/N1DV6W9qHiOW2wWUK1Wf+xyhfxiuso8=";
+            vendorHash = "sha256-kmQeSeVl/8Wy37rjMonCBfbxSseX45NG9HViuh1phdM=";
 
             GOFLAGS = [
               "-tags=osusergo,noembedbins"
