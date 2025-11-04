@@ -161,7 +161,7 @@
             in {
               imageName = name;
               imageDigest = digest;
-              sha256 = "sha256-oBoU1GqTLZGH8N3TJKoQCjmpkefCzhHFU3DU5etu7zc=";
+              sha256 = "sha256-j4kP+bImWttrQwre7dYR6A6c9XaYh9lAAXjsKazj0MI=";
               finalImageName = name;
               finalImageTag = version;
               os = "linux";
