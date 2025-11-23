@@ -7,13 +7,19 @@
     "github-actions",
     "nix"
   ],
-  "nix": {"enabled": true},
-  "ignorePaths": ["/results/**"],
+  "nix": {
+    "enabled": true
+  },
+  "ignorePaths": [
+    "/results/**"
+  ],
   "customManagers": [
     {
       "customType": "regex",
       "description": "Flake dependencies",
-      "fileMatch": "flake\\.nix$",
+      "managerFilePatterns": [
+        "/flake\\.nix$/"
+      ],
       "matchStrings": [
         "renovate = \\[\"(?<depName>.+?)\" \"(?<currentValue>.+?)\"( \"(?<currentDigest>.+?)\")?\\]; # (?<datasource>\\S+)"
       ],
@@ -22,8 +28,12 @@
   ],
   "packageRules": [
     {
-      "description": ["Merge GitHub actions updates"],
-      "matchManagers": ["github-actions"],
+      "description": [
+        "Merge GitHub actions updates"
+      ],
+      "matchManagers": [
+        "github-actions"
+      ],
       "automerge": true
     }
   ]
