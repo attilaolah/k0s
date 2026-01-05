@@ -15,7 +15,7 @@
       systems = ["x86_64-linux" "i686-linux"];
       perSystem = {pkgs, ...}: let
         inherit (builtins) elemAt;
-        renovate = ["k0sproject/k0s" "1.34.2+k0s.0"]; # github-releases
+        renovate = ["k0sproject/k0s" "1.34.3+k0s.0"]; # github-releases
         ownerAndRepo = pkgs.lib.strings.splitString "/" (elemAt renovate 0);
         owner = elemAt ownerAndRepo 0;
         repo = elemAt ownerAndRepo 1;
